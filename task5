@@ -1,0 +1,97 @@
+class Contact:
+    def __init__(self, name, phone_number, email, address):
+        self.name = name
+        self.phone_number = phone_number
+        self.email = email
+        self.address = address
+
+class ContactList:
+    def __init__(self):
+        self.contacts = []
+
+    def add_contact(self, contact):
+        self.contacts.append(contact)
+
+    def view_contacts(self):
+        if not self.contacts:
+            print("No contacts found.")
+        else:
+            print("Contact List:")
+            for index, contact in enumerate(self.contacts, start=1):
+                print(f"{index}. Name: {contact.name}, Phone: {contact.phone_number}")
+
+    def search_contact(self, search_term):
+        found_contacts = []
+        for contact in self.contacts:
+            if search_term.lower() in contact.name.lower() or search_term in contact.phone_number:
+                found_contacts.append(contact)
+        return found_contacts
+
+    def update_contact(self, contact_index, updated_contact):
+        if 0 <= contact_index < len(self.contacts):
+            self.contacts[contact_index] = updated_contact
+            print("Contact updated successfully.")
+        else:
+            print("Invalid contact index.")
+
+    def delete_contact(self, contact_index):
+        if 0 <= contact_index < len(self.contacts):
+            del self.contacts[contact_index]
+            print("Contact deleted successfully.")
+        else:
+            print("Invalid contact index.")
+
+def main():
+    contact_list = ContactList()
+
+    while True:
+        print("\nContact Management System")
+        print("1. Add Contact")
+        print("2. View Contact List")
+        print("3. Search Contact")
+        print("4. Update Contact")
+        print("5. Delete Contact")
+        print("6. Quit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            name = input("Enter name: ")
+            phone_number = input("Enter phone number: ")
+            email = input("Enter email: ")
+            address = input("Enter address: ")
+            new_contact = Contact(name, phone_number, email, address)
+            contact_list.add_contact(new_contact)
+            print("Contact added successfully.")
+        elif choice == '2':
+            contact_list.view_contacts()
+        elif choice == '3':
+            search_term = input("Enter name or phone number to search: ")
+            found_contacts = contact_list.search_contact(search_term)
+            if found_contacts:
+                print("Search results:")
+                for contact in found_contacts:
+                    print(f"Name: {contact.name}, Phone: {contact.phone_number}")
+            else:
+                print("No contacts found.")
+        elif choice == '4':
+            contact_list.view_contacts()
+            contact_index = int(input("Enter index of contact to update: ")) - 1
+            updated_name = input("Enter updated name: ")
+            updated_phone_number = input("Enter updated phone number: ")
+            updated_email = input("Enter updated email: ")
+            updated_address = input("Enter updated address: ")
+            updated_contact = Contact(updated_name, updated_phone_number, updated_email, updated_address)
+            contact_list.update_contact(contact_index, updated_contact)
+        elif choice == '5':
+            contact_list.view_contacts()
+            contact_index = int(input("Enter index of contact to delete: ")) - 1
+            contact_list.delete_contact(contact_index)
+        elif choice == '6':
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 6.")
+
+if __name__ == "__main__":
+    main()
